@@ -230,6 +230,9 @@ function search() {
                 if (!f) fields.push(f = { h, vals: [] });
                 if (!f.vals.includes(r[i])) f.vals.push(r[i]);
             });
+    // Fields listed here are moved to the top of the table, in this order.
+    const TOP = ['كود السائق'];
+    fields.sort((a, b) => (TOP.includes(b.h) ? TOP.length - TOP.indexOf(b.h) : 0) - (TOP.includes(a.h) ? TOP.length - TOP.indexOf(a.h) : 0));
     $('results').innerHTML = `<section class="card record"><table>${fields.map(f =>
         `<tr><th>${esc(f.h)}</th><td>${f.vals.map(esc).join('<br>')}</td></tr>`).join('')}</table></section>`;
     history.replaceState(null, '', '#' + encodeURIComponent(q));
